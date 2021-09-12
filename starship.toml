@@ -1,0 +1,27 @@
+format = """
+$username@$hostname\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$package\
+$golang\
+$nodejs\
+$python\
+$rust\
+$cmd_duration
+$shell\
+$character
+"""
+
+[username]
+show_always = true
+format = "[$user]($style)"
+
+[hostname]
+ssh_only = false
+trim_at = ""
+format = "[$hostname]($style) "
+

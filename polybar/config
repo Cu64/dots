@@ -1,0 +1,173 @@
+[bar/burs]
+fixed-center = true
+width = 100%
+height = 32
+offset-x = 0
+offset-y = 0
+
+background = #000000
+foreground = #FFFFFF
+
+border-size = 0
+border-color = ${xrdb:color8:#FF000000}
+
+line-size = 4
+
+padding-left = 8
+padding-right = 8
+
+module-margin-left = 1
+module-margin-right = 2
+
+font-0 = SF Pro Display:style=semibold:antialias=true:pixelsize=13;1
+font-1 = Material Icons:size=13;2
+font-2 = M+ 1mn:style=bold:pixelsize=13;1
+font-3 = "Wuncon Siji:style=bold:pixelsize=11:antialias=false;1"
+
+modules-left = bspwm mpd
+modules-center = xwindow
+modules-right = volume memory cpu temperature date battery
+
+tray-position = right
+tray-padding = 0
+
+wm-restack = bspwm
+
+[module/bspwm]
+type = internal/bspwm
+pin-workspaces = true
+module-margin-left = 4
+module-margin-right = 4
+label-focused = %name%
+label-focused-font = 4
+label-focused-background = ${xrdb:background:#6bbcc7}
+label-focused-underline = #6bbcc7
+label-focused-padding = 1
+
+label-occupied = %name%
+label-occupied-foreground = #6bbcc7
+label-occupied-padding = 1
+
+label-urgent = %name%
+label-urgent-background = ${xrdb:color1:#6bbcc7}
+label-urgent-padding = 1
+
+label-empty = %name%
+label-empty-foreground = #ffffff
+label-empty-padding = 1
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:90:...%
+
+[module/volume]
+type = internal/pulseaudio
+sink = ladspa_output.mbeq_1197.mbeq
+
+format-volume = <label-volume> <bar-volume>
+label-volume = " "
+label-volume-foreground = ${xrdb:color2:#00ff00}
+
+format-muted-prefix = " "
+format-muted-foreground = #555
+label-muted = sound muted
+
+bar-volume-width = 10
+bar-volume-foreground-0 = #FFFF00
+bar-volume-foreground-1 = #FFFF00
+bar-volume-foreground-2 = #FFFF00
+bar-volume-foreground-3 = #FFFF00
+bar-volume-foreground-4 = #FFFF00
+bar-volume-foreground-5 = #FFBB00
+bar-volume-foreground-6 = #FF0000
+bar-volume-gradient = false
+bar-volume-indicator = ━
+bar-volume-indicator-font = 1
+bar-volume-fill = ━
+bar-volume-fill-font = 1
+bar-volume-empty = ━
+bar-volume-empty-font = 1
+bar-volume-empty-foreground = $FFFFFF
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = " "
+format-prefix-foreground = #555
+format-underline = #6bbcc7
+label = %percentage_used%%
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = " "
+format-prefix-foreground = #555
+format-underline = #6bbcc7
+label = %percentage%%
+
+[module/date]
+type = internal/date
+interval = 5
+
+date =
+date-alt = " %Y-%m-%d"
+
+time = %I:%M %p
+time-alt = %I:%M %p
+
+format-prefix = 
+format-prefix-foreground = #555
+format-underline = #6bbcc7
+
+label = %date% %time%
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 98
+
+format-charging = <animation-charging> <label-charging>
+format-charging-underline = #ff43a947
+animation-charging-0 = 
+animation-charging-1 = 
+
+format-discharging = <label-discharging>
+label-discharging =  %percentage%%
+format-discharging-underline = #fc6600
+
+format-full-prefix = " "
+format-full-prefix-foreground = #555
+format-full-underline = #6bbcc7
+
+ramp-capacity-foreground = #555
+
+animation-charging-foreground = #555
+animation-charging-framerate = 750
+
+[module/mpd]
+type = internal/mpd
+
+host = 127.0.0.1
+port = 6600
+
+[module/temperature]
+type = internal/temperature
+
+interval = 1
+
+thermal-zone = 7
+
+hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon5/temp1_input
+
+base-temperature = 50
+warn-temperature = 80
+
+units = true
+
+format-underline = #6bbcc7
+format-warn-underline = #f00
+
+label-warn = TEMP %temperature-c%
+label-warm-foreground = #f00
+

@@ -1,0 +1,61 @@
+#!/bin/sh
+
+external_monitor=$(xrandr --query | grep 'HDMI1')
+if [[ $external_monitor = *connected* ]]; then
+        xrandr --output HDMI1 --auto --right-of eDP1 &
+fi
+
+# Set desktop background
+feh --bg-scale ~/.config/viennabread.png &
+
+# Start or reload sxhkd if its already running
+if pgrep -x sxhkd
+then
+    pkill -USR1 -x sxhkd &
+else
+    sxhkd &
+fi
+
+if [[ $external_monitor = *connected* ]]; then
+        bspc monitor eDP1 -d I II III IV V
+        bspc monitor 1 -d VI VII VIII IX X
+else
+        bspc monitor -d I II III IV V VI VII VIII IX X
+fi
+
+bspc config border_width         3
+bspc config window_gap           5
+
+bspc config split_ratio          0.50
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+# Colors
+bspc config normal_border_color  '#30302f' # Normal windows
+bspc config focused_border_color '#6bbcc7' # Focused window
+
+# Program rules
+bspc rule -a Firefox:Dialog desktop='^1' state=floating
+bspc rule -a TelegramDesktop desktop='^2' state=fullscreen
+
+xrdb -merge ~/.Xresources-dark
+
+# Conky
+conky -q &
+
+# Fix Cursor
+xsetroot -cursor_name left_ptr &
+
+# Start compton
+compton --backend glx -bfD2 &
+
+# Restart polybars
+pkill polybar
+polybar -r burs &
+
+# Input
+# ibus-daemon -drxR
+fcitx5 &
+
+#Start common apps
+nm-applet &
